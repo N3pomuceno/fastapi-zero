@@ -1,13 +1,24 @@
+from datetime import datetime
+from http import HTTPStatus
+
 from fastapi import FastAPI
+
+from src.schemas import Message
 
 app = FastAPI()
 
 
-# This is a simple FastAPI application that returns a greeting message.
-# It is used to demonstrate the basic structure of a FastAPI application.
-# The next line defines a route for the root path ("/") of the application.
-# When a GET request is made to this path, it will return a JSON response
-# with a message saying "Hello World!".
-@app.get('/')
+# Status code define the HTTP response status
+# response_model defines the schema of the response body
+# (it appears in the OpenAPI documentation: http://localhost:8000/docs)
+@app.get('/', status_code=HTTPStatus.OK, response_model=Message)
 def read_root():
     return {'message': 'Olá Mundo!'}
+
+
+# Exercise:
+# 1. Create a new endpoint that returns the current date and time.
+@app.get('/datetime', status_code=HTTPStatus.OK, response_model=Message)
+def read_datetime():
+    current_datetime = datetime.now().isoformat()
+    return {'message': f'O horário atual é: {current_datetime}'}
