@@ -19,3 +19,10 @@ Pontos de atenção:
 - Você precisa dar os devidos créditos a esse material onde for usar ou adaptar;
 - Você não pode usar para fins comerciais. Como vender ou usar para obter vantagens comerciais;
 - Todo o material derivado desse material deve ser redistribuído com a licença [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+
+
+---
+
+**Onde eu parei da última vez**
+
+Aula 6

@@ -12,3 +12,4 @@ wheels/
 # Coverage reports
 .coverage
 htmlcov/
+database.db

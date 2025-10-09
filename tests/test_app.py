@@ -27,7 +27,7 @@ def test_create_user(client: TestClient):
     }
 
 
-def test_read_users(client):
+def test_read_users(client: TestClient):
     response = client.get('/users/')
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {
@@ -41,7 +41,7 @@ def test_read_users(client):
     }
 
 
-def test_update_user(client):
+def test_update_user(client: TestClient):
     response = client.put(
         '/users/1',
         json={
@@ -58,7 +58,7 @@ def test_update_user(client):
     }
 
 
-def test_update_user_failing(client):
+def test_update_user_failing(client: TestClient):
     response = client.put(
         '/users/10',
         json={
@@ -70,14 +70,14 @@ def test_update_user_failing(client):
     assert response.status_code == HTTPStatus.NOT_FOUND
 
 
-def test_delete_user(client):
+def test_delete_user(client: TestClient):
     response = client.delete('/users/1')
 
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {'message': 'User deleted'}
 
 
-def test_delete_user_failing(client):
+def test_delete_user_failing(client: TestClient):
     response = client.delete('/users/10')
 
     assert response.status_code == HTTPStatus.NOT_FOUND
