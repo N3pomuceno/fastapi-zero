@@ -25,4 +25,6 @@ Pontos de atenção:
 
 **Onde eu parei da última vez**
 
+Exercícios da Aula 5
++
 Aula 6
