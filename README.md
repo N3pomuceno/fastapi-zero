@@ -25,6 +25,8 @@ Pontos de atenção:
 
 **Onde eu parei da última vez**
 
+Versão do site 4.3;
+
 Exercícios da Aula 5
 +
 Aula 6
