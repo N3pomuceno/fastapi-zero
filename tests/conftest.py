@@ -39,6 +39,8 @@ def _mock_db_time(*, model, time=datetime(2024, 1, 1)):
         # Função para alterar o atributo created_at do objeto de target.
         if hasattr(target, 'created_at'):
             target.created_at = time
+        if hasattr(target, 'updated_at'):
+            target.updated_at = time
 
     event.listen(model, 'before_insert', fake_time_hook)
     yield time  # Retorna o datetime na abertura do gerenciamento de contexto.
