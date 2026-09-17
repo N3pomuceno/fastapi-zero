@@ -26,6 +26,8 @@ Pontos de atenção:
 **Onde eu parei da última vez**
 
 Versão do site 4.3;
+Revisão: Parei no começo de "Configurando o banco de dados e gerenciando migrações com Alembic". Essa [Aula](https://fastapidozero.dunossauro.com/4.3/04/)
+
 
 Exercícios da Aula 5
 +
