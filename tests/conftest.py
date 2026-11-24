@@ -5,20 +5,39 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine, event
 from sqlalchemy.orm import Session
+from sqlalchemy.pool import StaticPool
 
 from src.app import app
-from src.models import table_registry
+from src.database import get_session
+from src.models import User, table_registry
 
 
 @pytest.fixture
-def client():
-    return TestClient(app)
+def client(session):
+    def get_session_override():
+        return session
+
+    # Criamos uma função para retornar nossa
+    # fixture de session definida anteriormente.
+
+    with TestClient(app) as client:
+        app.dependency_overrides[get_session] = get_session_override
+        yield client
+    # Substitui a função get_session que usamos para a aplicação real,
+    # pela nossa função que retorna a fixture de testes.
+
+    app.dependency_overrides.clear()
+    # Limpa a sobrescrita que fizemos no app para usar a fixture de session.
 
 
 @pytest.fixture
 def session():
     # Cria um mecanismo de banco de dados SQLite em memória usando SQLAlchemy.
-    engine = create_engine('sqlite:///:memory:')
+    engine = create_engine(
+        'sqlite:///:memory:',
+        connect_args={'check_same_thread': False},
+        poolclass=StaticPool,
+    )
     # Cria todas as tabelas no banco de dados de teste antes de
     # cada teste que usa a fixture session.
     table_registry.metadata.create_all(engine)
@@ -31,6 +50,7 @@ def session():
     # de dados de teste são eliminadas, garantindo que cada teste
     # seja executado contra um banco de dados limpo.
     table_registry.metadata.drop_all(engine)
+    engine.dispose()
 
 
 @contextmanager
@@ -50,3 +70,12 @@ def _mock_db_time(*, model, time=datetime(2024, 1, 1)):
 @pytest.fixture
 def mock_db_time():
     return _mock_db_time
+
+
+@pytest.fixture
+def user(session):
+    user = User(username='Teste', email='teste@test.com', password='testtest')
+    session.add(user)
+    session.commit()
+    session.refresh(user)
+    return user
