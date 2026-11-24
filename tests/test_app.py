@@ -65,9 +65,22 @@ def test_read_user_with_users(client, user):
     assert response.json() == {'users': [user_schema]}
 
 
+def test_read_user(client, user):
+    user_schema = UserPublic.model_validate(user).model_dump()
+    response = client.get(f'/users/{user.id}')
+    assert response.status_code == HTTPStatus.OK
+    assert response.json() == user_schema
+
+
+def test_read_user_not_found(client):
+    response = client.get('/users/999')
+    assert response.status_code == HTTPStatus.NOT_FOUND
+    assert response.json() == {'detail': 'User not found'}
+
+
 def test_update_user(client, user):
     response = client.put(
-        '/users/1',
+        f'/users/{user.id}',
         json={
             'username': 'bob',
             'email': 'bob@example.com',
@@ -78,11 +91,11 @@ def test_update_user(client, user):
     assert response.json() == {
         'username': 'bob',
         'email': 'bob@example.com',
-        'id': 1,
+        'id': user.id,
     }
 
 
-def test_update_user_failing(client):
+def test_update_user_failing(client, user):
     response = client.put(
         '/users/10',
         json={
@@ -121,13 +134,13 @@ def test_update_integrity_error(client, user):
 
 
 def test_delete_user(client, user):
-    response = client.delete('/users/1')
+    response = client.delete(f'/users/{user.id}')
 
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {'message': 'User deleted'}
 
 
-def test_delete_user_failing(client):
+def test_delete_user_failing(client, user):
     response = client.delete('/users/10')
 
     assert response.status_code == HTTPStatus.NOT_FOUND
