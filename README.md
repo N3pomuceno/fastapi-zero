@@ -27,5 +27,5 @@ Pontos de atenção:
 
 Versão do site 4.3;
 
-Essa Aula [6](https://fastapidozero.dunossauro.com/4.3/06/)
+Essa Aula [7](https://fastapidozero.dunossauro.com/4.3/07/)
 
